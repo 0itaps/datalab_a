@@ -184,7 +184,12 @@ int copyLSB(int x) {
  *   Rating: 1
  */
 int evenBits(void) {
-  return 2;
+   int x = 1;
+   x = x | (x << 2);
+   x = x | (x << 4);
+   x = x | (x << 8);
+   x = x | (x << 16);
+  return x;
 }
 /* 
  * float_abs - Return bit-level equivalent of absolute value of f for
