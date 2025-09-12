@@ -203,7 +203,13 @@ int evenBits(void) {
  *   Rating: 2
  */
 unsigned float_abs(unsigned uf) {
-  return 2;
+   unsigned signMask = 0x7FFFFFFF;
+   unsigned expMask = 0x7F800000;
+   unsigned fracMask = 0x007FFFFF;
+
+   if (!((uf & expMask) ^ expMask) && (uf & fracMask)) {
+      return uf;
+   } else return uf & signMask;
 }
 /*
  * isTmin - returns 1 if x is the minimum, two's complement number,
