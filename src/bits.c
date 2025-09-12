@@ -174,9 +174,12 @@ NOTES:
  *   Rating: 2
  */
 int copyLSB(int x) {
+   // Copy LSB
    int lsb = x & 1;
-  return (lsb << 31) >> 31;
+   // Shift LSB to MSB and back to LSB taking advantage of arithmetic right shift
+   return (lsb << 31) >> 31;
 }
+
 /* 
  * evenBits - return word with all even-numbered bits set to 1
  *   Legal ops: ! ~ & ^ | + << >>
@@ -184,12 +187,16 @@ int copyLSB(int x) {
  *   Rating: 1
  */
 int evenBits(void) {
+   // Start bulding pattern with 0001
    int x = 1;
+   // Shift left by two to get 0100 and OR it with x to get 0101
    x = x | (x << 2);
+   // Shift left by 4 and OR with previous x to get 0101 0101
    x = x | (x << 4);
+   // Continue process while doubling left shifts till desired pattern is reached
    x = x | (x << 8);
    x = x | (x << 16);
-  return x;
+   return x;
 }
 /* 
  * float_abs - Return bit-level equivalent of absolute value of f for
@@ -203,13 +210,15 @@ int evenBits(void) {
  *   Rating: 2
  */
 unsigned float_abs(unsigned uf) {
+   // Initialize masks for each part of a single-precision floating point number
    unsigned signMask = 0x7FFFFFFF;
    unsigned expMask = 0x7F800000;
    unsigned fracMask = 0x007FFFFF;
 
+   // Check if exponent part is all ones and if fraction part isn't all zeros
    if (!((uf & expMask) ^ expMask) && (uf & fracMask)) {
       return uf;
-   } else return uf & signMask;
+   } else return uf & signMask; // Change sign bit to zero
 }
 /*
  * isTmin - returns 1 if x is the minimum, two's complement number,
@@ -219,5 +228,6 @@ unsigned float_abs(unsigned uf) {
  *   Rating: 1
  */
 int isTmin(int x) {
-  return !((x+x)|!x);
+   // Checks for special case of Tmin, where x+x overflows to 0, and !x is also 0
+   return !((x+x)|!x);
 }
